@@ -1,0 +1,169 @@
+# llama.cpp-omni 社区任务清单 -- 唯一真相源
+#
+# 这个文件是公开 issue 正文的唯一来源。公开 issue 是生成物，不要直接编辑 issue 正文。
+# 规范见同目录 README.md。改动后必须跑：
+#     python3 scripts/roadmap/render.py --check
+#
+# 硬规则
+#     1. ID 格式 T-NNN，从 T-001 开始连续递增
+#     2. 已经分配过的 ID 永不复用、永不重排、永不修改
+#     3. 只追加，不重排已有条目
+#     4. title 和 title_zh 必须同时提供；note 和 note_zh 必须同时提供
+#        （校验器会强制，防止中英漂移）
+#     5. 内容只能来自维护者。新增条目前先问维护者，不要自己发明任务
+#
+# 字段说明
+#     id         必填  字符串，格式 T-NNN（至少 3 位数字，不足补零）
+#     title      必填  字符串，英语，一句话说清"要达成什么"
+#     title_zh   必填  字符串，中文对应说法
+#     difficulty 必填  easy / medium / hard / expert
+#                       easy   = 一个文件，不需要架构知识，本地可自测
+#                       medium = 需要理解一个子模块，跨 2-3 个文件
+#                       hard   = 工程量大的已知路径（移植、重构、搬到已有后端）
+#                       expert = 原创开发，方法尚未确定，需要先设计
+#     domain     必填  vision / audio / tts / duplex / server / model / ggml
+#                       / conversion / python / build / docs / devops / demo / app
+#     issue      可选  整数，已存在的 GitHub issue 编号（不带 #）
+#     owner      可选  字符串，认领者 GitHub 用户名（不带 @）
+#     note       可选  字符串，英语补充说明
+#     note_zh    必填  当 note 存在时；中文对应说明
+#     umbrella   可选  布尔，标记为伞形条目（下面可以挂子任务）
+#     parent     可选  字符串，指向所属伞形条目的 ID
+#     kind       可选  task（默认）/ research
+#
+# 注意：跨仓库任务（domain 为 demo 或 app）不修改本仓库代码，note 里写明了实际仓库，
+# 认领时请到对应仓库开 issue 与 PR。
+
+
+# ===========================================================================
+# Easy
+# ===========================================================================
+
+[[tasks]]
+id = "T-001"
+title = "Update and improve the README"
+title_zh = "支持修改 README 页面"
+difficulty = "easy"
+domain = "docs"
+
+[[tasks]]
+id = "T-002"
+title = "Add more use cases and measured results"
+title_zh = "添加更多用例 case 和实测结果"
+difficulty = "easy"
+domain = "docs"
+
+[[tasks]]
+id = "T-004"
+title = "Test the cpp backend demo on different platforms"
+title_zh = "测试不同平台的 cpp 后端 demo"
+difficulty = "easy"
+domain = "demo"
+note = "Cross-repo: OpenBMB/MiniCPM-o-Demo. The demo is the Python demo we provide."
+note_zh = "跨仓库：OpenBMB/MiniCPM-o-Demo。demo 是我们提供的 py demo。"
+
+
+# ===========================================================================
+# Medium
+# ===========================================================================
+
+[[tasks]]
+id = "T-005"
+title = "Deploy the demo via the cpp backend and diagnose the audio problems"
+title_zh = "通过 cpp 部署 demo，排查音频问题"
+difficulty = "medium"
+domain = "audio"
+note = "Cross-repo: OpenBMB/MiniCPM-o-Demo."
+note_zh = "跨仓库：OpenBMB/MiniCPM-o-Demo。"
+
+[[tasks]]
+id = "T-006"
+title = "Improve the Python demo UI"
+title_zh = "优化 py demo 界面，目前不是很美观"
+difficulty = "medium"
+domain = "demo"
+note = "Cross-repo: OpenBMB/MiniCPM-o-Demo."
+note_zh = "跨仓库：OpenBMB/MiniCPM-o-Demo。"
+
+[[tasks]]
+id = "T-007"
+title = "Improve the UI of the MiniCPM-V app"
+title_zh = "优化 app 界面（V 的 app）"
+difficulty = "medium"
+domain = "app"
+note = "Cross-repo: OpenBMB/MiniCPM-V-Apps."
+note_zh = "跨仓库：OpenBMB/MiniCPM-V-Apps。"
+
+[[tasks]]
+id = "T-008"
+title = "Integrate omni inference into the MiniCPM-V app"
+title_zh = "将 V 的 app 整合 omni 推理"
+difficulty = "medium"
+domain = "app"
+note = "Cross-repo: OpenBMB/MiniCPM-V-Apps. Can go through a local api or a cloud api; running omni on device is still heavy."
+note_zh = "跨仓库：OpenBMB/MiniCPM-V-Apps。可以接入本地 api、云端 api 等方式；端上跑 omni 还有点重。"
+
+[[tasks]]
+id = "T-009"
+title = "Optimize the simplex (turn-based) inference and put it into the demo"
+title_zh = "将单工推理优化一下，并结合放进 demo"
+difficulty = "medium"
+domain = "duplex"
+note = "The demo part is cross-repo: OpenBMB/MiniCPM-o-Demo. The engine side is this repo. Can be split into several subtasks."
+note_zh = "demo 那部分跨仓库：OpenBMB/MiniCPM-o-Demo。引擎侧在本仓库。可以拆分成多个子任务。"
+
+
+# ===========================================================================
+# Hard
+# ===========================================================================
+
+[[tasks]]
+id = "T-010"
+title = "Rework the app frontend - the iOS and Win builds have poor UX and errors in various cases"
+title_zh = "重做 app 前端，目前 iOS 和 Win 版本使用体验不佳，各种情况有报错"
+difficulty = "hard"
+domain = "app"
+note = "Cross-repo: OpenBMB/MiniCPM-V-Apps."
+note_zh = "跨仓库：OpenBMB/MiniCPM-V-Apps。"
+
+[[tasks]]
+id = "T-011"
+title = "Sync with a new upstream llama.cpp branch and resolve the conflicts"
+title_zh = "同步上游 llama.cpp 新分支，解决冲突"
+difficulty = "hard"
+domain = "build"
+
+[[tasks]]
+id = "T-012"
+title = "Explore the feasibility of WebGPU"
+title_zh = "探索 WebGPU 的可行性"
+difficulty = "hard"
+domain = "ggml"
+note = "Can be split into several easy subtasks."
+note_zh = "可以拆分成多个简单级别的子任务。"
+
+[[tasks]]
+id = "T-013"
+title = "Support other similar full-duplex streaming models"
+title_zh = "适配支持其他类似全双工流式模型"
+difficulty = "hard"
+domain = "model"
+
+
+# ===========================================================================
+# Expert
+# ===========================================================================
+
+[[tasks]]
+id = "T-014"
+title = "Support multi-session full-duplex real-time streaming inference"
+title_zh = "支持多 session 的全双工实时流式推理"
+difficulty = "expert"
+domain = "duplex"
+
+[[tasks]]
+id = "T-015"
+title = "Better operator-level inference acceleration"
+title_zh = "更优的算子级别的推理加速"
+difficulty = "expert"
+domain = "ggml"
